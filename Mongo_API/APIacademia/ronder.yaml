@@ -1,23 +1,16 @@
-service: 
-
+services: 
   - type: web
-
     name: api-academia
-
+    runtime: node
     plan: free
-
     buildCommand: "npm install"
-
     startCommand: "npm start"
-
     autoDeplay: true
-
     envVars: 
       - key: NODE_ENV
-          values: "production"
- 
+        values: "production"
       - key: MONGO_URI
-          sync: false
+        sync: false
 
     #  - key: JWT_SECRET
     #     sync: false || generateValues: true
