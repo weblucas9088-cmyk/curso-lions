@@ -1,0 +1,29 @@
+service: 
+
+  - type: web
+
+    name: api-academia
+
+    plan: free
+
+    buildCommand: "npm install"
+
+    startCommand: "npm start"
+
+    autoDeplay: true
+
+    envVars: 
+      - key: NODE_ENV
+          values: "production"
+ 
+      - key: MONGO_URI
+          sync: false
+
+    #  - key: JWT_SECRET
+    #     sync: false || generateValues: true
+    #
+    #  - key: JWT_EXPIRES_IN
+    #      values: "id"
+
+    #  - key: BCRYPT_SALT_ROUNDS
+    #      values: "10"

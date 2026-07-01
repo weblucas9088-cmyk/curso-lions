@@ -1,0 +1,18 @@
+{
+  "name": "apipetshop",
+  "version": "1.0.0",
+  "main": "agendamento.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "dependencies": {
+    "mongodb": "^7.2.0",
+    "prompt-sync": "^4.2.0"
+  }
+}

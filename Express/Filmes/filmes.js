@@ -1,0 +1,9 @@
+const filmes = [{
+    id : 1,
+    titulo: "Cidade de Deus",
+    diretor: "Fernando Meirelles",
+    ano: 2002,
+    genero: "Drama"
+    
+}]
+export default filmes;
