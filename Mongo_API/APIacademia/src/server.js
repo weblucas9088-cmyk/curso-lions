@@ -1,17 +1,26 @@
 import express from "express";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 import conectDB from "./db.js";
 import matricula from "./models/matricula.js";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000
-conectDB();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+await conectDB();
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "../frontend")));
 
-app.get("/", (req, res) => {
-    res.json({mensagem: "Servidor rodando"});
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
+    if (req.method === "OPTIONS") return res.sendStatus(204);
+    next();
 });
 
 app.post("/matriculas", async (req, res) => {
