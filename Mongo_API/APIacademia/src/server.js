@@ -10,16 +10,19 @@ conectDB();
 
 app.use(express.json());
 
-app.get(("/"), (req, res) => {
-    res.json ({mensagem: "Servidor rodando"});
+app.get("/", (req, res) => {
+    res.json({mensagem: "Servidor rodando"});
 });
 
-app.post(("/matriculas"), async (req, res) => {
+app.post("/matriculas", async (req, res) => {
     try {
-        const {nomeAluno, Idade, Modalidade, Plano, dataMatricula} = req.body
+        const {nomeAluno, idade, modalidade, plano, dataMatricula} = req.body
 
-        if (Modalidade) {
-            switch (Modalidade) {
+        let valorMensal = 0;
+        let valorTotal = 0;
+
+        if (modalidade) {
+            switch (modalidade) {
                 case "Musculação":
                     valorMensal = 90;
                     break;
@@ -30,39 +33,31 @@ app.post(("/matriculas"), async (req, res) => {
                     valorMensal = 100;
                     break;
                 default:
-                    console.log("Serviço inválido");
-                    break;
+                    return res.status(400).json({mensagem: "Modalidade inválida"});
             }
         }
-        if (Plano) {
-            switch (Plano) {
-                case "Mensal":
-                    valorTotal = 1 * valorMensal
 
+        if (plano) {
+            switch (plano) {
+                case "Mensal":
+                    valorTotal = 1 * valorMensal;
                     break;
                 case "Trimestral":
-
-                    valorTotal = 3 * valorTotal * 0.9
-
+                    valorTotal = 3 * valorMensal * 0.9;
                     break;
-
                 case "Semestral":
-
-                    valorTotal = 6 * valorMensal * 0.85
-
+                    valorTotal = 6 * valorMensal * 0.85;
                     break;
-            
                 default:
-                    console.log("Serviço inválido");
-                    break;
+                    return res.status(400).json({mensagem: "Plano inválido"});
             }
         }
 
         const novaMatricula = new matricula ({
             nomeAluno,
-            Idade,
-            Modalidade,
-            Plano,
+            idade,
+            modalidade,
+            plano,
             dataMatricula,
             valorMensal,
             valorTotal,
@@ -73,52 +68,51 @@ app.post(("/matriculas"), async (req, res) => {
         res.status(201).json({mensagem: "Matricula criada com sucesso", matricula: novaMatricula});
 
     } catch (error) {
-        res.status(400).json({message: `Erro ao criar a matricula: ${error.mensagem}`})
+        res.status(400).json({mensagem: `Erro ao criar a matricula: ${error.message}`});
     }
 }); 
 
-app.get(("/matriculas"), async (req, res) => {
+app.get("/matriculas", async (req, res) => {
     try {
         const todasMatriculas = await matricula.find();
 
-        res.status(200)({mensagem: "Todas as matriculas foram listadas com sucesso", matricula: todasMatriculas});
+        res.status(200).json({mensagem: "Todas as matriculas foram listadas com sucesso", matricula: todasMatriculas});
     } catch (error) {
-        
-        res.status(400)({mensagem: `Erro ao listar matricula: ${error.message}`});
+        res.status(400).json({mensagem: `Erro ao listar matricula: ${error.message}`});
     }
 });
 
-app.get(("/matriculas/buscar"), async (req, res) => {
+app.get("/matriculas/buscar", async (req, res) => {
     try {
         const nome = req.query.nome;
 
-        const matriculas = await matricula.find({ nomeAluno: {$regex: nome , $option: "i"} });
+        const matriculas = await matricula.find({ nomeAluno: {$regex: nome , $options: "i"} });
         res.status(200).json({mensagem: "Matricula encontrada com sucesso", matricula: matriculas});
     } catch (error) {
         res.status(400).json({mensagem: `Erro ao buscar matricula: ${error.message}`});
    } 
 });
 
-app.patch(("/matricula/:id"), async (req, res) => {
+app.patch("/matricula/:id", async (req, res) => {
     try {
         const id = req.params.id;
-        const { Pausada } = req.body;
-        const matriculaAtualizado = await matricula.findByIdAndDelete(id, { status: Pausada }, {runValidators: true, new: true});
+        const { status } = req.body;
+        const matriculaAtualizada = await matricula.findByIdAndUpdate(id, { status }, {runValidators: true, new: true});
 
-        if (!matriculaAtualizado) {
+        if (!matriculaAtualizada) {
             return res.status(404).json({mensagem: "Matricula não encontrada"});
         } else {
-            return res.status(200).json({mensagem: "Matricula atualizada com sucesso", matricula: matriculaAtualizado});
+            return res.status(200).json({mensagem: "Matricula atualizada com sucesso", matricula: matriculaAtualizada});
         }
     } catch (error) {
          res.status(500).json({mensagem: `Erro ao atualizar matricula: ${error.message}`});
     }
 });
 
-app.delete(("/marticula/:id"), async (req, res) => {
+app.delete("/matricula/:id", async (req, res) => {
     try {
         const id = req.params.id;
-        const matriculaDeletada = matricula.findByIdAndDelete(id);
+        const matriculaDeletada = await matricula.findByIdAndDelete(id);
         
         if (!matriculaDeletada) {
             return res.status(404).json({mensagem: "Matricula não encontrada"});
@@ -131,6 +125,6 @@ app.delete(("/marticula/:id"), async (req, res) => {
 });
 
 
-app.listen((process.env.PORT), () => {
+app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
