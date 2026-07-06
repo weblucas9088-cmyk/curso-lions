@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Academia - Sistema de Matrículas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <span class="gym-icon">💪</span>
+                <span class="logo-text">API Academia</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#matriculas">Matrículas</a></li>
+                <li><a href="#nova-matricula">Nova Matrícula</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Dashboard -->
+        <section id="dashboard" class="dashboard">
+            <h2>Dashboard</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total de Matrículas</h3>
+                    <p id="totalMatriculas">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Matrículas Ativas</h3>
+                    <p id="matriculasAtivas">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Receita Total</h3>
+                    <p id="receitaTotal">R$ 0,00</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Modalidade Mais Popular</h3>
+                    <p id="modalidadePopular">-</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lista de Matrículas -->
+        <section id="matriculas" class="matriculas-section">
+            <div class="section-header">
+                <h2>Matrículas</h2>
+                <div class="search-box">
+                    <input type="text" id="buscarAluno" placeholder="Buscar por nome do aluno...">
+                    <button id="btnBuscar">Buscar</button>
+                    <button id="btnLimparBusca" class="btn-secondary">Limpar</button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table id="tabelaMatriculas">
+                    <thead>
+                        <tr>
+                            <th>Aluno</th>
+                            <th>Idade</th>
+                            <th>Modalidade</th>
+                            <th>Plano</th>
+                            <th>Data</th>
+                            <th>Valor Mensal</th>
+                            <th>Valor Total</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabela">
+                        <!-- Matrículas serão inseridas aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Formulário Nova Matrícula -->
+        <section id="nova-matricula" class="form-section">
+            <h2>Nova Matrícula</h2>
+            <form id="formMatricula" class="matricula-form">
+                <div class="form-group">
+                    <label for="nomeAluno">Nome do Aluno *</label>
+                    <input type="text" id="nomeAluno" name="nomeAluno" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="idade">Idade *</label>
+                    <input type="number" id="idade" name="idade" min="12" max="100" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="modalidade">Modalidade *</label>
+                    <select id="modalidade" name="modalidade" required>
+                        <option value="">Selecione...</option>
+                        <option value="Musculação">Musculação - R$ 90/mês</option>
+                        <option value="Funcional">Funcional - R$ 120/mês</option>
+                        <option value="Dança">Dança - R$ 100/mês</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="plano">Plano *</label>
+                    <select id="plano" name="plano" required>
+                        <option value="">Selecione...</option>
+                        <option value="Mensal">Mensal (sem desconto)</option>
+                        <option value="Trimestral">Trimestral (10% desconto)</option>
+                        <option value="Semestral">Semestral (15% desconto)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dataMatricula">Data da Matrícula *</label>
+                    <input type="date" id="dataMatricula" name="dataMatricula" required>
+                </div>
+
+                <div class="resumo-valor" id="resumoValor" style="display: none;">
+                    <h3>Resumo do Valor</h3>
+                    <p>Valor Mensal: <span id="valorMensalDisplay">R$ 0,00</span></p>
+                    <p>Desconto: <span id="descontoDisplay">0%</span></p>
+                    <p class="valor-total">Valor Total: <span id="valorTotalDisplay">R$ 0,00</span></p>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn-primary">Cadastrar Matrícula</button>
+                    <button type="reset" class="btn-secondary">Limpar Formulário</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <!-- Modal de Edição -->
+    <div id="modalEditar" class="modal">
+        <div class="modal-content">
+            <span class="fechar-modal">&times;</span>
+            <h2>Editar Status da Matrícula</h2>
+            <form id="formEditar">
+                <input type="hidden" id="editarId">
+                <div class="form-group">
+                    <label for="editarStatus">Novo Status</label>
+                    <select id="editarStatus" required>
+                        <option value="Ativa">Ativa</option>
+                        <option value="Pausada">Pausada</option>
+                        <option value="Cancelada">Cancelada</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div id="modalConfirmar" class="modal">
+        <div class="modal-content modal-pequeno">
+            <span class="fechar-modal">&times;</span>
+            <h2>Confirmar Exclusão</h2>
+            <p>Tem certeza que deseja excluir esta matrícula?</p>
+            <div class="modal-buttons">
+                <button id="btnConfirmarExclusao" class="btn-danger">Sim, Excluir</button>
+                <button id="btnCancelarExclusao" class="btn-secondary">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast de Notificação -->
+    <div id="toast" class="toast"></div>
+
+    <footer>
+        <p>&copy; 2024 API Academia - Sistema de Gerenciamento de Matrículas</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

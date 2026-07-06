@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlayStation Store - Loja de Jogos</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <span class="ps-logo">PS</span>
+                <span class="logo-text">PlayStation Store</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Início</a></li>
+                <li><a href="#jogos">Jogos</a></li>
+                <li><a href="#ofertas">Ofertas</a></li>
+                <li><a href="#conta">Minha Conta</a></li>
+            </ul>
+            <div class="carrinho">
+                <button id="abrirCarrinho">🛒 Carrinho (<span id="contagemCarrinho">0</span>)</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Bem-vindo à PlayStation Store</h1>
+                <p>Explore os melhores jogos para PlayStation 4 e PlayStation 5</p>
+                <a href="#jogos" class="btn-primary">Ver Catálogo</a>
+            </div>
+        </section>
+
+        <!-- Catálogo de Jogos -->
+        <section id="jogos" class="catalogo">
+            <h2>Catálogo de Jogos</h2>
+            <div class="filtros">
+                <button class="filtro-btn ativo" data-filtro="todos">Todos</button>
+                <button class="filtro-btn" data-filtro="ps5">PS5</button>
+                <button class="filtro-btn" data-filtro="ps4">PS4</button>
+                <button class="filtro-btn" data-filtro="acao">Ação</button>
+                <button class="filtro-btn" data-filtro="aventura">Aventura</button>
+            </div>
+            <div id="listaJogos" class="grid-jogos"></div>
+        </section>
+
+        <!-- Seção de Ofertas -->
+        <section id="ofertas" class="ofertas">
+            <h2>Ofertas Especiais</h2>
+            <div id="listaOfertas" class="grid-jogos"></div>
+        </section>
+    </main>
+
+    <!-- Modal do Carrinho -->
+    <div id="modalCarrinho" class="modal">
+        <div class="modal-content">
+            <span class="fechar-modal">&times;</span>
+            <h2>Seu Carrinho</h2>
+            <div id="itensCarrinho"></div>
+            <div class="total-carrinho">
+                <p>Total: R$ <span id="totalCarrinho">0,00</span></p>
+                <button id="finalizarCompra" class="btn-primary">Finalizar Compra</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>PlayStation Store</h3>
+                <p>Sua loja oficial de jogos digitais PlayStation.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Links Úteis</h3>
+                <ul>
+                    <li><a href="#">Suporte</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Termos de Uso</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contato</h3>
+                <p>Email: contato@playstationstore.com</p>
+                <p>Telefone: (11) 1234-5678</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 PlayStation Store. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
