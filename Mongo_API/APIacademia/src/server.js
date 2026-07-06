@@ -72,16 +72,6 @@ app.post("/matriculas", async (req, res) => {
     }
 }); 
 
-app.get("/matriculas", async (req, res) => {
-    try {
-        const todasMatriculas = await matricula.find();
-
-        res.status(200).json({mensagem: "Todas as matriculas foram listadas com sucesso", matricula: todasMatriculas});
-    } catch (error) {
-        res.status(400).json({mensagem: `Erro ao listar matricula: ${error.message}`});
-    }
-});
-
 app.get("/matriculas/buscar", async (req, res) => {
     try {
         const nome = req.query.nome;
@@ -91,6 +81,16 @@ app.get("/matriculas/buscar", async (req, res) => {
     } catch (error) {
         res.status(400).json({mensagem: `Erro ao buscar matricula: ${error.message}`});
    } 
+});
+
+app.get("/matriculas", async (req, res) => {
+    try {
+        const todasMatriculas = await matricula.find();
+
+        res.status(200).json({mensagem: "Todas as matriculas foram listadas com sucesso", matricula: todasMatriculas});
+    } catch (error) {
+        res.status(400).json({mensagem: `Erro ao listar matricula: ${error.message}`});
+    }
 });
 
 app.patch("/matricula/:id", async (req, res) => {

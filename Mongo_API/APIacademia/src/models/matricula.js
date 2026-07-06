@@ -3,17 +3,17 @@ import mongoose from "mongoose";
 const matriculaSchema = new mongoose.Schema({
     nomeAluno: {
         type: String,
-        require: [true, "O nome do aluno é obrigatório!"],
+        required: [true, "O nome do aluno é obrigatório!"],
     },
 
     idade: {
         type: Number,
-        require: [true, "A idade do aluno é obrigatória!"],
+        required: [true, "A idade do aluno é obrigatória!"],
     },
 
     modalidade: {
         type: String,
-        require: [true, "A modalidade é obrigatório!"],
+        required: [true, "A modalidade é obrigatório!"],
         enum: {
             values: ["Musculação", "Funcional", "Dança"],
             message: "A modalidade deve ser Musculação, Funcional ou Dança!"
@@ -22,7 +22,7 @@ const matriculaSchema = new mongoose.Schema({
 
     plano: {
         type: String,
-        require: [true, "O plano é obrigatório!"],
+        required: [true, "O plano é obrigatório!"],
         enum: {
             values: ["Mensal", "Trimestral", "Semestral"],
             message: "O plano deve ser Mensal, Trimestral ou Semestral!",
@@ -31,7 +31,7 @@ const matriculaSchema = new mongoose.Schema({
 
     dataMatricula: {
         type: String,
-        require: [true, "A data da matricula é obrigatório!"],
+        required: [true, "A data da matricula é obrigatório!"],
     },
 
     valorMensal: {
