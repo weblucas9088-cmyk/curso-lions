@@ -9,7 +9,7 @@ async function conectDB() {
         await mongoose.connect(MONGO_URI);
         console.log("Banco de dados esta conectado");
     } catch (error) {
-        console.log(`WASTED` %(error.message));
+        console.log(`WASTED ${error.message}`);
     }
 }
 
